@@ -6,7 +6,7 @@
 # react-chartjs-2
 
 React wrapper for [Chart.js 2](http://www.chartjs.org/docs/#getting-started)
-Open for PR's and contributions!
+Open for PRs and contributions!
 
 # UPDATE to 2.x
 As of 2.x we have made chart.js a peer dependency for greater flexibility. Please add chart.js as a dependency on your project to use 2.x. Currently, 2.4.x is the recommended version of chart.js to use.
@@ -48,7 +48,7 @@ import {Doughnut} from 'react-chartjs-2';
 
 ### Properties
 
-* data: PropTypes.object.isRequired,
+* data: (PropTypes.object | PropTypes.func).isRequired,
 * width: PropTypes.number,
 * height: PropTypes.number,
 * legend: PropTypes.object,
@@ -83,6 +83,31 @@ render() {
 	}
 	return (
 		<Doughnut ref='chart' data={data} />
+	)
+}
+```
+
+### Getting context for data generation
+Canvas node and hence context, that can be used to create CanvasGradient background,
+is passed as argument to data if given as function:
+
+This approach is useful when you want to keep your components pure.
+
+```js
+render() {
+	const data = (canvas) => {
+		const ctx = canvas.getContext("2d")
+		const gradient = ctx.createLinearGradient(0,0,100,0);
+		...
+		return {
+			...
+			backgroundColor: gradient
+			...
+		}
+	}
+
+	return (
+		<Line data={data} />
 	)
 }
 ```
